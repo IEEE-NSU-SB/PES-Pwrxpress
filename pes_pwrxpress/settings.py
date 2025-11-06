@@ -34,10 +34,6 @@ else:
     DEBUG = False
     ALLOWED_HOSTS = ['pes-pwrxpress.ieeensusb.org']
 
-
-# Application definition
-TAILWIND_APP_NAME = 'theme'
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     # 'django.contrib.auth',
@@ -52,8 +48,6 @@ INSTALLED_APPS = [
     'system_administration',
     'access_ctrl',
     'access_ctrl.apps.CustomAuthConfig',
-    'tailwind',
-    'theme',
 ]
 
 MIDDLEWARE = [
