@@ -5,7 +5,7 @@ from .views import *
 app_name='registration'
 urlpatterns = [
     # Public/user registration form (only visible when published)
-    path('', registration_form, name='registration_form'),
+    path('registration/', registration_form, name='registration_form'),
     # Staff-only admin view of the form and controls
     path('reg/', registration_redirect, name="registration_redirect"),
     path('registration/admin/', registration_admin, name='registration_admin'),
