@@ -22,6 +22,8 @@
     <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+
       body {
         /* background-image: url("{% static '/img/StepBG.png' %}"); */
         background: transparent;
@@ -29,46 +31,41 @@
         background-size: cover;
         position: relative;
         z-index: 0;
-        font-family: "Inter", sans-serif;
+        font-family: "Instrument Sans", sans-serif;
       }
       .response_count {
         /* font-weight: bold; */
         font-size: larger;
-        border-bottom: 2px solid #00629b;
-        border-right: 2px solid #00629b;
+        border-bottom: 2px solid #74BA2D;
+        border-right: 3px solid #74BA2D;
         padding: 4px 8px;
-        border-radius: 8px;
-        background: #dceffa;
-        color: #00629b;
+        border-radius: 4px;
+        background: #e3ffc6;
+        color: #74BA2D;
         /* font-style: italic; */
       }
-      @media screen and (max-width: 500px) {
-        .response_count {
-          margin: 0 auto;
-        }
-      }
       /* Width of the scrollbar */
-      ::-webkit-scrollbar {
-        width: 12px;
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
         height: 12px; /* For horizontal scrollbar */
       }
 
       /* Track (background) */
-      ::-webkit-scrollbar-track {
+      .custom-scrollbar::-webkit-scrollbar-track {
         background: #a32d2d;
         border-radius: 8px;
       }
 
       /* Handle (the draggable part) */
-      ::-webkit-scrollbar-thumb {
+      .custom-scrollbar::-webkit-scrollbar-thumb {
         background: #e53232;
-        border-radius: 8px;
-        border: 3px solid #9d1e1e; /* Padding effect */
+        border-radius: 9999px;
+        cursor: pointer;
       }
 
       /* Handle on hover */
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #74BA2D;
       }
       /* particles container */
       canvas {
@@ -79,7 +76,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: #489a46;
+        background-color: #479A46;
         background-image: url("");
         background-repeat: no-repeat;
         background-size: 20%;
@@ -116,15 +113,88 @@
       .count-particles {
         border-radius: 0 0 3px 3px;
       }
+      .input_label{
+        display: block;
+        font-size: 18px;
+        margin-bottom: 0.35rem;
+        color: #122812;
+      }
+      .input{
+        width: 100%;
+        padding: .5rem .75rem;
+        border: 1px solid gray;
+        border-radius: 0.375rem;
+        outline-style: none;
+        box-shadow: 2px 2px 2px #eefbe3;
+        transition: all .3s ease-in-out;
+        background: transparent;
+      }
+      .input:focus{
+        border: 1px solid #74BA2D;
+        box-shadow: 2px 2px 2px #D7F5BF;
+      }
+      .continue-btn{
+        color: #74BA2D;
+        background: #D7F5BF;
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        border: 1px solid;
+      }
+      .continue-btn:hover{
+        background: #c4f49d;
+        transition: 0.3s all ease-in-out;
+      }
+      .admin-btn{
+        color: #122812;
+        border: 1px solid #122812;
+        border-radius: 0.325rem;
+        background: #c4f49d;
+        padding: 0.25rem 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 1.25rem;
+        transition: all 0.3s ease-in-out;
+        justify-content: center;
+      }
+      .admin-btn:hover{
+        background: #479A46;
+        color: #c4f49d;
+      }
+      .back-btn{
+        color: #122812;
+        border-radius: 1rem;
+        cursor: pointer;
+        font-size: 1.25rem;
+        margin-top: .75rem;
+      }
+      .section_heading{
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: .5rem;
+      }
+      @media screen and (max-width: 500px) {
+        .response_count {
+          margin: 0 auto;
+        }
+        .admin-btn{
+          width: 100%;
+          font-size: 1rem;
+        }
+        .response_count{
+          margin: 12px auto;
+        }
+      }
     </style>
   </head>
 
-  <body class="min-h-screen py-8">
+  <body class="py-8 custom-scrollbar">
     <!--Particles JS-->
     <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
     <div class="w-11/12 md:w-3/5 mx-auto my-4 mt-12">
-      <div class="rounded overflow-hidden shadow-lg flex justify-center">
+      <div class="rounded overflow-hidden shadow-[0px_0px_10px_#c4f49d] border-1 border-white flex justify-center">
         {% if not is_staff_view and not is_published and not registration_closed %}
         <img
           style="height: 70vh"
@@ -146,7 +216,7 @@
     <!-- Button Header -->
     <div class="rounded">
       <div
-        class="bg-white w-11/12 md:w-3/5 mx-auto px-6 py-5"
+        class="bg-[#eefbe3] w-11/12 md:w-3/5 mx-auto px-6 py-5"
         style="
           backdrop-filter: blur(7px);
           border-radius: 4px 4px;
@@ -156,31 +226,26 @@
       >
         <!-- <div class="flex flex-wrap gap-3 items-center justify-between"> -->
         <div
-          class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-between"
+          class="flex flex-col sm:flex-row sm:flex-wrap items-center md:justify-between items-start"
         >
           <div>
             <!-- Publish Form Toggle Button (staff only) -->
             <button
               id="publishToggle"
               type="button"
-              class="inline-flex items-center gap-2 px-0 py-2.5 rounded-md font-medium text-lg"
+              class="inline-flex gap-2 px-0 py-2.5 rounded-md font-medium text-lg"
             >
               <input
                 id="publishCheckbox"
                 type="checkbox"
-                {%
-                if
-                is_published
-                %}checked="checked"
-                {%
-                endif
-                %}
-                class="toggle border-gray-300 bg-gray-400 checked:border-blue-500 checked:bg-blue-400 checked:text-blue-800"
+                {% if is_published %} checked="checked"
+                {% endif %}
+                class="toggle border-gray-300 bg-gray-400 checked:border-[#74BA2D] checked:bg-[#D7F5BF] checked:text-[#74BA2D]"
               />
               {% if is_published %}
               <span
                 class="text-xl"
-                style="color: rgb(0, 155, 31)"
+                style="color: #74BA2D"
                 id="publishText"
                 >Form published!</span
               >
@@ -205,7 +270,7 @@
           <!-- Download Excel Button (staff only) -->
           <a
             href="{% url 'registration:download_excel' %}"
-            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2"
+            class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
               <path
@@ -218,7 +283,7 @@
           {% if has_perm.view_qr_dashboard %}
           <a
             href="{% url 'core:dashboard' %}"
-            class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-amber-600 hover:to-amber-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2"
+            class="admin-btn"
           >
             <span>Dashboard</span>
           </a>
@@ -227,7 +292,7 @@
           <!-- See Responses Button (staff only) -->
           <a
             href="{% url 'registration:response_table' %}"
-            class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
+            class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
               <path
@@ -238,7 +303,7 @@
           </a>
           <a
             href="{% url 'registration:t_shirt_responses' %}"
-            class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
+            class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
               <path
@@ -253,7 +318,7 @@
       </div>
 
       <div
-        class="bg-white w-11/12 md:w-3/5 mx-auto"
+        class="bg-[#eefbe3] w-11/12 md:w-3/5 mx-auto"
         style="
           backdrop-filter: blur(7px);
           border-radius: 4px 4px;
@@ -321,12 +386,12 @@
               <br>
               <b>Event Type</b>: Day-long flagship program
             </p>
-            <hr class="my-6 w-[98%] m-auto text-gray-400">
-            <h2 class="text-center text-2xl">BASIC INFO</h2>
+            <hr class="my-6 w-[100%] m-auto text-gray-400">
+            <h2 class="section_heading">BASIC INFO</h2>
             <div class="mb-5">
-              <label for="name" class="block uppercase text-lg mb-1">
+              <label for="name" class="input_label">
                 Name<span
-                  class="text-red-500"
+                  class="text-red-700 ml-1"
                   >*</span
                 >
               </label>
@@ -335,44 +400,44 @@
                 name="name"
                 id="name"
                 placeholder="Enter your Name"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                class="input"
                 required
               />
             </div>
             <div class="mb-5">
-              <label for="email" class="block uppercase text-lg mb-1">
-                Email Address<span class="text-red-500">*</span>
+              <label for="email" class="input_label">
+                Email Address<span class="text-red-700 ml-1">*</span>
               </label>
               <input
                 type="email"
                 name="email"
                 id="email"
                 placeholder="Enter your Email"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                class="input"
                 required
               />
             </div>
             <div class="mb-5">
-              <label for="contact_number" class="block uppercase text-lg mb-1">
-                Contact Number<span class="text-red-500">*</span>
+              <label for="contact_number" class="input_label">
+                Contact Number<span class="text-red-700 ml-1">*</span>
               </label>
               <input
                 type="number"
                 name="contact_number"
                 id="contact_number"
                 placeholder="Enter your Contact Number"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                class="input"
                 required
               />
             </div>
             <!--Select if you are a student or not-->
             <div class="mb-5">
-              <label class="block uppercase text-lg mb-1">
-                Are you a student from North South University?<span class="text-red-500">*</span>
+              <label class="input_label">
+                Are you a student from North South University?<span class="text-red-700 ml-1">*</span>
               </label>
-              <label>
+              <label class="text-lg">
                 <input
-                  class="mb-1 text-md"
+                  class="mb-1"
                   type="radio"
                   name="is_student"
                   value="student"
@@ -380,9 +445,9 @@
                 />
                 Yes </label
               ><br />
-              <label>
+              <label class="text-lg">
                 <input
-                  class="mb-1 text-md"
+                  class="mb-1"
                   type="radio"
                   name="is_student"
                   value="other_student"
@@ -398,54 +463,54 @@
             <!--For Student-->
             <div class="student_div">
               <div class="mb-5">
-                <label for="nsu_id" class="block uppercase text-lg mb-1">
-                  NSU ID<span class="text-red-500">*</span>
+                <label for="nsu_id" class="input_label">
+                  NSU ID<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="number"
                   name="nsu_id"
                   id="nsu_id"
                   placeholder="Enter your NSU ID"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
               <div class="mb-5">
-                <label for="nsu_email" class="block uppercase text-lg mb-1">
-                  NSU Email<span class="text-red-500">*</span>
+                <label for="nsu_email" class="input_label">
+                  NSU Email<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="email"
                   name="nsu_email"
                   id="nsu_email"
                   placeholder="Enter your NSU email"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
               <div class="mb-5">
-                <label for="department" class="block uppercase text-lg mb-1">
-                  Department<span class="text-red-500">*</span>
+                <label for="department" class="input_label">
+                  Department<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   name="department"
                   id="department"
                   placeholder="Enter your department"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
               <div class="mb-5">
-                <label for="current_year" class="block uppercase text-lg mb-1">
-                  Which year are you in?<span class="text-red-500">*</span>
+                <label for="current_year" class="input_label">
+                  Which year are you in?<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   name="current_year"
                   id="current_year"
                   placeholder="Enter your current year in univerisity"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
@@ -453,35 +518,35 @@
             <!--For Students of other universities-->
             <div class="other_uni_div">
               <div class="mb-5">
-                <label for="uni_name" class="block uppercase text-lg mb-1">
-                  Name of your university<span class="text-red-500">*</span>
+                <label for="uni_name" class="input_label">
+                  Name of your university<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   name="uni_name"
                   id="uni_name"
                   placeholder="Enter your university name"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
               <div class="mb-5">
-                <label for="uni_id" class="block uppercase text-lg mb-1">
-                  University ID<span class="text-red-500">*</span>
+                <label for="uni_id" class="input_label">
+                  University ID<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="number"
                   name="uni_id"
                   id="uni_id"
                   placeholder="Enter your university id"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
               <div class="mb-5">
-                <label for="other_current_year" class="block uppercase text-lg mb-1">
+                <label for="other_current_year" class="input_label">
                   Which year are you in?<span
-                    class="text-red-500"
+                    class="text-red-700 ml-1"
                     >*</span
                   >
                 </label>
@@ -490,14 +555,14 @@
                   name="other_current_year"
                   id="other_current_year"
                   placeholder="Enter your current year in univerisity"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
               <div class="mb-5">
-                <label for="major" class="block uppercase text-lg mb-1">
+                <label for="major" class="input_label">
                   What's your major?<span
-                    class="text-red-500"
+                    class="text-red-700 ml-1"
                     >*</span
                   >
                 </label>
@@ -506,18 +571,18 @@
                   name="major"
                   id="major"
                   placeholder="Enter your major"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
               </div>
             </div>
             <div class="mb-5">
-              <label class="block uppercase text-lg mb-1">
-                Are you an IEEE Member?<span class="text-red-500">*</span>
+              <label class="input_label">
+                Are you an IEEE Member?<span class="text-red-700 ml-1">*</span>
               </label>
-              <label>
+              <label class="text-lg">
                 <input
-                  class="mb-1"
+                  class="mb-2"
                   type="radio"
                   name="membership_type"
                   value="member"
@@ -525,15 +590,15 @@
                 />
                 IEEE Member </label
               ><br />
-              <label>
+              <label class="text-lg">
                 <input type="radio" name="membership_type" value="non_ieee" />
                 Non-IEEE Member </label
               ><br />
             </div>
             <div class="mb-5">
-                <label for="ieee_id" class="block uppercase text-lg mb-1">
+                <label for="ieee_id" class="input_label">
                   Your IEEE ID Number (Write N/A if you're Non-IEEE Member)<span
-                    class="text-red-500"
+                    class="text-red-700 ml-1"
                     >*</span
                   >
                 </label>
@@ -542,14 +607,14 @@
                   name="ieee_id"
                   id="ieee_id"
                   placeholder="Enter your Membership ID"
-                  class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                  class="input"
                   required
                 />
             </div>
             <div class="flex justify-center">
               <button
                 onclick="nextStep(1)"
-                class="text-[#74BA2D] bg-[#D7F5BF] px-5 py-2 rounded-md hover:bg-[#c4f49d] duration-300 transition-all ease-in-out cursor-pointer"
+                class="continue-btn"
                 type="button"
               >
                 Continue
@@ -567,7 +632,7 @@
               <div class="z-10">
                 <button
                   onclick="prevStep(1)"
-                  class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6"
+                  class="back-btn"
                   type="button"
                 >
                   Back
@@ -578,16 +643,16 @@
               <div
                 class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
               >
-                <h2 class="text-2xl mb-6 truncate text-center">
-                  QUESTIONNAIRE
+                <h2 class="section_heading">
+                  Questions
                 </h2>
               </div>
             </div>
 
             <div class="mb-5">
-              <label for="question1" class="block uppercase text-lg mb-1">
-                1. What's your idea about this event?(Write your thoughts within 100 words)<span
-                  class="text-red-500"
+              <label for="question1" class="input_label">
+                1. What's your idea about this event? (Write your thoughts within 100 words)<span
+                  class="text-red-700 ml-1"
                   >*</span
                 >
               </label>
@@ -602,9 +667,9 @@
               ></textarea>
             </div>
             <div class="mb-5">
-              <label for="question2" class="block uppercase text-lg mb-1">
+              <label for="question2" class="input_label">
                 2. What is your expectation from this program? (Write your thoughts within 100 words)<span
-                  class="text-red-500"
+                  class="text-red-700 ml-1"
                   >*</span
                 >
               </label>
@@ -619,9 +684,9 @@
               ></textarea>
             </div>
             <div class="mb-5">
-              <label for="ambassador_code" class="block uppercase text-lg mb-1">
+              <label for="ambassador_code" class="input_label">
                 Ambassador Code<span
-                  class="text-red-500"
+                  class="text-red-700 ml-1"
                   >*</span
                 >
               </label>
@@ -629,14 +694,14 @@
                 type="text"
                 name="ambassador_code"
                 id="ambassador_code"
-                placeholder="Enter your major"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                placeholder="Enter your Ambassador code"
+                class="input"
                 required
               />
             </div>
              <div class="mb-5">
-              <label class="block uppercase text-lg mb-1">
-                You are joining "Power Express 2.0" as_<span class="text-red-500">*</span>
+              <label class="input_label">
+                You are joining "Power Express 2.0" as_<span class="text-red-700 ml-1">*</span>
               </label>
               <label>
                 <input
@@ -671,7 +736,7 @@
             <div class="flex justify-center">
               <button
                 onclick="nextStep(2)"
-                class="text-[#74BA2D] bg-[#D7F5BF] px-5 py-2 rounded-md hover:bg-[#c4f49d] duration-300 transition-all ease-in-out cursor-pointer"
+                class="continue-btn"
                 type="button"
               >
                 Continue
@@ -688,7 +753,7 @@
               <div class="z-10">
                 <button
                   onclick="prevStep(2)"
-                  class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6"
+                  class="back-btn"
                   type="button"
                 >
                   Back
@@ -698,12 +763,15 @@
               <div
                 class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
               >
-                <p class="text-justify">Each team can have 3 members (maximum). All of the members will have to register for the event. Only one member from each team will have to register for his team.</p>
-              </div>
+              <h2 class="section_heading">
+                  Poster Competition Details
+              </h2>
             </div>
+          </div>
+          <p class="text-justify mb-5">Each team can have 3 members (maximum). All of the members will have to register for the event. Only one member from each team will have to register for his team.</p>
              <div class="mb-5">
-              <label class="block uppercase text-lg mb-1">
-                Are you registering for your team?<span class="text-red-500">*</span>
+              <label class="input_label">
+                Are you registering for your team?<span class="text-red-700 ml-1">*</span>
               </label>
               <label>
                 <input
@@ -726,8 +794,8 @@
               ><br />
             </div>
             <div class="mb-5" id="team_count_section">
-              <label class="block uppercase text-lg mb-1">
-                How many member are there in your team?<span class="text-red-500">*</span>
+              <label class="input_label">
+                How many member are there in your team?<span class="text-red-700 ml-1">*</span>
               </label>
               <label>
                 <input
@@ -737,7 +805,7 @@
                   value="2"
                   required
                 />
-                2</label
+                Two</label
               ><br />
               <label>
                 <input
@@ -746,93 +814,93 @@
                   name="team_mem_count"
                   value="3"
                 />
-                3</label
+                Three</label
               ><br />
             </div>
             <div id="mem_1">
               <div class="mb-5">
-                <label for="mem_name_1" class="block uppercase text-lg mb-1">
-                  Name of your team member 1<span class="text-red-500">*</span>
+                <label for="mem_name_1" class="input_label">
+                  Name of your team member 1<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                 type="text"
                 name="mem_name_1"
                 id="mem_name_1"
-                placeholder="Enter your team member name"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                placeholder="Enter your first team member name"
+                class="input"
                 required
                 />
             </div>
             <div class="mb-5">
-              <label for="mem_uni_name_1" class="block uppercase text-lg mb-1">
-                University Name<span class="text-red-500">*</span>
+              <label for="mem_uni_name_1" class="input_label">
+                University Name<span class="text-red-700 ml-1">*</span>
               </label>
               <input
                 type="text"
                 name="mem_uni_name_1"
                 id="mem_uni_name_1"
-                placeholder="Enter your university id"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                placeholder="Enter your first team member university name"
+                class="input"
                 required
                 />
               </div>
               <div class="mb-5">
-                <label for="mem_uni_id_1" class="block uppercase text-lg mb-1">
+                <label for="mem_uni_id_1" class="input_label">
                 University ID<span
-                  class="text-red-500"
+                  class="text-red-700 ml-1"
                   >*</span
                 >
               </label>
               <input
-              type="text"
+              type="number"
               name="mem_uni_id_1"
               id="mem_uni_id_1"
-              placeholder="Enter your current year in univerisity"
-              class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+              placeholder="Enter your first team member university id"
+              class="input"
               required
               />
             </div>
             </div>
             <div id="mem_2">
               <div class="mb-5">
-                <label for="mem_name_2" class="block uppercase text-lg mb-1">
-                  Name of your team member 2<span class="text-red-500">*</span>
+                <label for="mem_name_2" class="input_label">
+                  Name of your team member 2<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                 type="text"
                 name="mem_name_2"
                 id="mem_name_2"
-                placeholder="Enter your university name"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                placeholder="Enter your second team member name"
+                class="input"
                 required
                 />
             </div>
             <div class="mb-5">
-              <label for="mem_uni_name_2" class="block uppercase text-lg mb-1">
-                University Name<span class="text-red-500">*</span>
+              <label for="mem_uni_name_2" class="input_label">
+                University Name<span class="text-red-700 ml-1">*</span>
               </label>
               <input
                 type="text"
                 name="mem_uni_name_2"
                 id="mem_uni_name_2"
-                placeholder="Enter your university id"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                placeholder="Enter your second team member university name"
+                class="input"
                 required
                 />
               </div>
               <div class="mb-5">
-                <label for="mem_uni_id_2" class="block uppercase text-lg mb-1">
+                <label for="mem_uni_id_2" class="input_label">
                 University ID<span
-                  class="text-red-500"
+                  class="text-red-700 ml-1"
                   >*</span
                 >
               </label>
               <input
-              type="text"
+              type="number"
               name="mem_uni_id_2"
               id="mem_uni_id_2"
-              placeholder="Enter your current year in univerisity"
-              class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+              placeholder="Enter your second team member university id"
+              class="input"
               required
               />
             </div>
@@ -840,7 +908,7 @@
             <div class="flex justify-center">
               <button
                 onclick="nextStep(3)"
-                class="text-[#74BA2D] bg-[#D7F5BF] px-5 py-2 rounded-md hover:bg-[#c4f49d] duration-300 transition-all ease-in-out cursor-pointer"
+                class="continue-btn"
                 type="button"
               >
                 Continue
@@ -859,7 +927,7 @@
               <div class="z-10">
                 <button
                   onclick="prevStep(3)"
-                  class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6"
+                  class="back-btn"
                   type="button"
                 >
                   Back
@@ -879,8 +947,8 @@
               <span style="font-weight: bold">Bkash: +8801734973058</span>
             </p>
             <div class="my-8">
-              <label class="block uppercase mb-1">
-                Select Payment Method:<span class="text-red-500">*</span>
+              <label class="block font-semibold mb-1">
+                Select Payment Method:<span class="text-red-700 ml-1">*</span>
               </label>
               <label>
                 <input
@@ -894,15 +962,15 @@
             </div>
 
             <div class="mb-5">
-              <label for="transaction_id" class="block uppercase mb-1">
-                Transaction ID<span class="text-red-500">*</span>
+              <label for="transaction_id" class="block font-semibold mb-1">
+                Transaction ID<span class="text-red-700 ml-1">*</span>
               </label>
               <input
                 type="text"
                 name="transaction_id"
                 id="transaction_id"
                 placeholder="Enter your Transaction ID"
-                class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none"
+                class="input"
                 required
               />
             </div>
@@ -1071,8 +1139,8 @@
             </div>
 
             <div class="mb-4 mt-3">
-              <label class="block uppercase mb-1">
-                Select T-Shirt size<span class="text-red-500">*</span>
+              <label class="block font-semibold mb-1">
+                Select T-Shirt size<span class="text-red-700 ml-1">*</span>
               </label>
               <div class="flex flex-col gap-2 ml-6">
                 <label class="flex items-center gap-2">
@@ -1209,8 +1277,8 @@
     </div>
     {% endif %}
 
-    <div class="flex justify-center items-center mt-3 h-15">
-      <p class="text-white">
+    <div class="flex justify-center items-center mt-3 h-15 mx-5 text-center">
+      <p class="text-black font-semibold italic">
         <small>2025 © All rights reserved by IEEE NSU Student Branch</small>
       </p>
     </div>
@@ -1222,10 +1290,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const otherStudentDivs = document.querySelectorAll('.other_uni_div');
 
   const teamRadios = document.querySelectorAll('input[name="registering_for_team"]');
-  const teamCountSection = document.getElementById("team_count_section");
   const teamCountRadios = document.querySelectorAll('input[name="team_mem_count"]');
+  const teamCountSection = document.getElementById("team_count_section");
   const mem1 = document.getElementById("mem_1");
   const mem2 = document.getElementById("mem_2");
+
+  const mem1Inputs = mem1.querySelectorAll("input");
+  const mem2Inputs = mem2.querySelectorAll("input");
 
   // --- Toggle Student Sections ---
   function toggleSections() {
@@ -1250,27 +1321,62 @@ document.addEventListener('DOMContentLoaded', function () {
   studentRadio.addEventListener('change', toggleSections);
   otherStudentRadio.addEventListener('change', toggleSections);
 
-  // --- Toggle Team Sections ---
+// --- Toggle Team Sections ---
   function toggleTeamSection() {
     const selected = document.querySelector('input[name="registering_for_team"]:checked');
+
     if (selected && selected.value === "yes") {
       teamCountSection.style.display = "block";
     } else {
       teamCountSection.style.display = "none";
       mem1.style.display = "none";
       mem2.style.display = "none";
+
+      mem1Inputs.forEach(i => i.required = false);
+      mem2Inputs.forEach(i => i.required = false);
     }
   }
 
+  // --- Toggle Member Sections (refactored like your student toggle) ---
   function toggleMemberSection() {
     const selected = document.querySelector('input[name="team_mem_count"]:checked');
-    if (!selected) return;
-    mem1.style.display = selected.value === "2" || selected.value === "3" ? "block" : "none";
-    mem2.style.display = selected.value === "3" ? "block" : "none";
+
+    if (selected && selected.value === "2") {
+      // Show only member 1
+      mem1.style.display = "block";
+      mem2.style.display = "none";
+
+      mem1Inputs.forEach(i => i.required = true);
+      mem2Inputs.forEach(i => i.required = false);
+
+    } else if (selected && selected.value === "3") {
+      // Show both members
+      mem1.style.display = "block";
+      mem2.style.display = "block";
+
+      mem1Inputs.forEach(i => i.required = true);
+      mem2Inputs.forEach(i => i.required = true);
+
+    } else {
+      // Hide both if no selection
+      mem1.style.display = "none";
+      mem2.style.display = "none";
+
+      mem1Inputs.forEach(i => i.required = false);
+      mem2Inputs.forEach(i => i.required = false);
+    }
   }
 
+  // --- Initialize hidden state ---
+  teamCountSection.style.display = "none";
+  mem1.style.display = "none";
+  mem2.style.display = "none";
+
+  // --- Add Event Listeners ---
   teamRadios.forEach(r => r.addEventListener("change", toggleTeamSection));
   teamCountRadios.forEach(r => r.addEventListener("change", toggleMemberSection));
+
+  // --- Initialize once ---
   toggleTeamSection();
   toggleMemberSection();
 });
@@ -1302,8 +1408,21 @@ function nextStep(currentStep) {
     return;
   }
 
+    // ✅ Poster validation
   if (currentStep === 3) {
-    lastStepBeforePayment = 3;
+    const registeringForTeam = document.querySelector('input[name="registering_for_team"]:checked');
+    if (!registeringForTeam) {
+      Swal.fire("Please select whether you're registering for your team!");
+      return;
+    }
+
+    if (registeringForTeam.value === "yes") {
+      const teamCount = document.querySelector('input[name="team_mem_count"]:checked');
+      if (!teamCount) {
+        Swal.fire("Please select how many members are in your team!");
+        return;
+      }
+    }
   }
 
   goToStep(currentStep + 1);
@@ -1314,6 +1433,8 @@ function prevStep(currentStep) {
     goToStep(lastStepBeforePayment);
   } else if (currentStep === 2){
     goToStep(2);
+  } else if (currentStep === 1){
+    goToStep(1);
   } else {
     goToStep(currentStep - 1);
   }
@@ -1332,7 +1453,8 @@ function validateStep(stepNumber) {
   if (!currentStep) return true;
   const requiredInputs = currentStep.querySelectorAll("[required]");
   for (const input of requiredInputs) {
-    if (!input.value.trim()) return false;
+    if (!input.value.trim()) 
+    return true;
   }
   return true;
 }
@@ -1389,6 +1511,73 @@ document.getElementById('registrationForm').addEventListener('submit', function 
       submitBtn.disabled = false;
     });
 });
+
+{% if is_staff_view %}
+// Get elements
+const publishToggle = document.getElementById('publishCheckbox');
+const publishText = document.getElementById('publishText');
+const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+if (publishToggle) {
+  publishToggle.addEventListener('change', () => {
+    if (publishToggle.checked) {
+      // Show Publish Modal
+      document.getElementById('publishModal').classList.remove('hidden');
+    } else {
+      // Show Unpublish Modal
+      document.getElementById('unpublishModal').classList.remove('hidden');
+    }
+  });
+
+  // --- Publish Modal ---
+  document.getElementById('cancelPublish').addEventListener('click', () => {
+    document.getElementById('publishModal').classList.add('hidden');
+    publishToggle.checked = false; // revert toggle
+  });
+
+  document.getElementById('confirmPublish').addEventListener('click', () => {
+    document.getElementById('publishModal').classList.add('hidden');
+    // Send AJAX request to publish
+    fetch('{% url "registration:toggle_publish" %}', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    })
+    .then(r => r.json())
+    .then(data => {
+      publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
+      publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
+      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
+    })
+    .catch(err => alert('Failed to toggle publish: ' + err.message));
+  });
+
+  // --- Unpublish Modal ---
+  document.getElementById('cancelUnpublish').addEventListener('click', () => {
+    document.getElementById('unpublishModal').classList.add('hidden');
+    publishToggle.checked = true; // revert toggle
+  });
+
+  document.getElementById('confirmUnpublish').addEventListener('click', () => {
+    document.getElementById('unpublishModal').classList.add('hidden');
+    // Send AJAX request to unpublish
+    fetch('{% url "registration:toggle_publish" %}', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    })
+    .then(r => r.json())
+    .then(data => {
+      publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
+      publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
+      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
+    })
+    .catch(err => alert('Failed to toggle publish: ' + err.message));
+  });
+}
+{% endif %}
 </script>
 
 
@@ -1415,7 +1604,7 @@ document.getElementById('registrationForm').addEventListener('submit', function 
               anim: { enable: false, speed: 4, size_min: 0.3, sync: false },
             },
             line_linked: {
-              enable: false,
+              enable: true,
               distance: 150,
               color: "#ffffff",
               opacity: 0.4,
