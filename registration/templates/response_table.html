@@ -96,8 +96,7 @@
                <tr data-href="{% url 'registration:view_response' p.id %}" class="border-b hover:bg-gray-100 transition">
                  <td class="py-3 px-4">{{p.id}}</td>
                  <td class="py-3 px-4 font-medium">{{p.name}}</td>
-                 <td class="py-3 px-4">{% if p.is_student %}Yes{% else %}No{% endif %}</td>
-                 <td class="py-3 px-4">{% if p.is_student %}{{p.university}}{% else %}{{p.affiliation}}{% endif %}</td>
+                 <td class="py-3 px-4">{{p.university}}</td>
                  <td class="py-3 px-4">{{p.department}}</td>
                  <td class="py-3 px-4 text-blue-600">{{p.email}}</td>
                  <td class="py-3 px-4">{{p.contact_number}}</td>
@@ -139,15 +138,15 @@
             <tbody>
               <tr>
                 <td class="py-2 px-4">IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.student_member|default:0}}</td>
+                <td class="py-2 px-4">{{registration_stats.member|default:0}}</td>
                 <td class="py-2 px-4">400</td>
-                <td class="py-2 px-4">{{registration_stats.student_member_amount_total}}</td>
+                <td class="py-2 px-4">{{registration_stats.ieee_member_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Non-IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.student_non_ieee|default:0}}</td>
+                <td class="py-2 px-4">{{registration_stats.non_ieee|default:0}}</td>
                 <td class="py-2 px-4">500</td>
-                <td class="py-2 px-4">{{registration_stats.student_non_ieee_amount_total}}</td>
+                <td class="py-2 px-4">{{registration_stats.non_ieee_member_total}}</td>
               </tr>
             </tbody>
           </table>
