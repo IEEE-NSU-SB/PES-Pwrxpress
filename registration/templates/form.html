@@ -359,7 +359,7 @@
               <b>PowerExpress</b>, a flagship event from the <b>IEEE NSU PES Student Branch Chapter</b> brings together students, young professionals, industry leaders, and policy leaders for a day-long program of learning, innovation, and collaboration.  The program features a series of inspiring keynote talks, impactful panel discussions, and interactive competitions designed to turn fresh ideas into real-world solutions.
               <br>
               <br>
-              The event concludes with a Closing & Awards Ceremony, which will inspire and celebrate innovation and collaboration. More than an event, <b>PowerExpress</b> is a platform that connects academia, industry, and young innovators, empowering participants to actively contribute to a sustainable energy future.
+              More than an event, <b>PowerExpress</b> is a platform that connects academia, industry, and young innovators, empowering participants to actively contribute to a sustainable energy future.
               <br>
               <br>
               Event Details: 
@@ -707,7 +707,7 @@
                   class="mb-1"
                   type="radio"
                   name="participant_type"
-                  value="poster"
+                  value="participant_pstpre_contestant"
                 />
                 Participant and Poster Presentation Contestant</label
               ><br />
@@ -716,7 +716,7 @@
                   class="mb-1"
                   type="radio"
                   name="participant_type"
-                  value="olympiad"
+                  value="participant_pwrolmp_contestant"
                 />
                 Participant and Power Olympiad Contestant</label
               ><br />
@@ -767,7 +767,7 @@
                   class="mb-1"
                   type="radio"
                   name="registering_for_team"
-                  value="yes"
+                  value="True"
                   required
                 />
                 Yes, I'm registering for my team.</label
@@ -777,7 +777,7 @@
                   class="mb-1"
                   type="radio"
                   name="registering_for_team"
-                  value="no"
+                  value="False"
                 />
                 No, one of my teammate will register.</label
               ><br />
@@ -791,7 +791,7 @@
                   class="mb-1"
                   type="radio"
                   name="team_mem_count"
-                  value="2"
+                  value="two"
                   required
                 />
                 Two</label
@@ -801,7 +801,7 @@
                   class="mb-1"
                   type="radio"
                   name="team_mem_count"
-                  value="3"
+                  value="three"
                 />
                 Three</label
               ><br />
@@ -945,6 +945,7 @@
                   name="payment_method"
                   value="Bkash"
                   required
+                  checked
                 />
                 Bkash (Send Money)
               </label>
@@ -1314,7 +1315,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function toggleTeamSection() {
     const selected = document.querySelector('input[name="registering_for_team"]:checked');
 
-    if (selected && selected.value === "yes") {
+    if (selected && selected.value === "True") {
       teamCountSection.style.display = "block";
     } else {
       teamCountSection.style.display = "none";
@@ -1330,7 +1331,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function toggleMemberSection() {
     const selected = document.querySelector('input[name="team_mem_count"]:checked');
 
-    if (selected && selected.value === "2") {
+    if (selected && selected.value === "two") {
       // Show only member 1
       mem1.style.display = "block";
       mem2.style.display = "none";
@@ -1338,7 +1339,7 @@ document.addEventListener('DOMContentLoaded', function () {
       mem1Inputs.forEach(i => i.required = true);
       mem2Inputs.forEach(i => i.required = false);
 
-    } else if (selected && selected.value === "3") {
+    } else if (selected && selected.value === "three") {
       // Show both members
       mem1.style.display = "block";
       mem2.style.display = "block";
@@ -1387,10 +1388,18 @@ function nextStep(currentStep) {
       return;
     }
 
-    if (participantType.value === "poster") {
+    if (participantType.value === "participant_pstpre_contestant") {
+      const step3 = document.getElementById("step3");
+        step3.querySelectorAll("input").forEach(input => {
+          input.disabled = false;
+        });
       lastStepBeforePayment = 3;
       goToStep(3);
     } else {
+        const step3 = document.getElementById("step3");
+        step3.querySelectorAll("input").forEach(input => {
+          input.disabled = true;
+        });
       lastStepBeforePayment = 2;
       goToStep(4);
     }
@@ -1405,7 +1414,7 @@ function nextStep(currentStep) {
       return;
     }
 
-    if (registeringForTeam.value === "yes") {
+    if (registeringForTeam.value === "True") {
       const teamCount = document.querySelector('input[name="team_mem_count"]:checked');
       if (!teamCount) {
         Swal.fire("Please select how many members are in your team!");

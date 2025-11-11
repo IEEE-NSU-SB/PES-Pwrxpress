@@ -27,7 +27,6 @@ class Form_Participant(models.Model):
         ('three', 'Three'),
     ]
 
-    is_student = models.BooleanField(default=False)
     is_nsu_student = models.BooleanField(default=False)
 
     # Step 1
@@ -41,16 +40,17 @@ class Form_Participant(models.Model):
     major = models.CharField(max_length=50, null=True, blank=True, default='')
     membership_type = models.CharField(max_length=20, choices=MEMBERSHIP_CHOICES)
     ieee_id = models.CharField(max_length=50, blank=True, null=True)
+    current_year = models.CharField(max_length=8, null=True, blank=True, default='')
 
     # Step 2
     # Store all questionnaire answers in JSON
     answers = models.JSONField(default=dict)
     ambassador_code = models.CharField(max_length=15, blank=True, null=True, default='')
-    joining_as = models.CharField(max_length=35, choices=JOIN_CHOICES, null=False, blank=False, default='participant')
+    participant_type = models.CharField(max_length=35, choices=JOIN_CHOICES, null=False, blank=False, default='participant')
 
     # Step 3
     registering_for_team = models.BooleanField(blank=False, null=False, default=False)
-    team_member_count = models.CharField(max_length=5, null=True, blank=True)
+    team_member_count = models.CharField(max_length=5, choices=TEAM_MEMBER_COUNT_CHOICES, null=True, blank=True)
     team_mem_1_name = models.CharField(max_length=200, null=True, blank=True)
     team_mem_1_university = models.CharField(max_length=200, null=True, blank=True, default='')
     team_mem_1_university_id = models.CharField(max_length=50, null=True, blank=True,default='')
