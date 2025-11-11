@@ -267,10 +267,8 @@ def download_excel(request):
 @permission_required('view_reg_responses_list')
 def response_table(request):
 
-    student_member_amount = 410
-    student_non_member_amount = 510
-    not_student_member_amount = 810
-    not_student_non_member_amount = 910
+    ieee_member = 400
+    non_ieee_member = 500
 
     permissions = {
         'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
@@ -281,7 +279,7 @@ def response_table(request):
     # Query grouped stats
     stats = (
         Form_Participant.objects
-        .values("is_nsu_student", "membership_type")
+        .values("membership_type")
         .annotate(total=Count("id"))
     )
 
@@ -289,27 +287,18 @@ def response_table(request):
     summary = {}
 
     for entry in stats:
-        is_student = "student" if entry["is_nsu_student"] else "not_student"
         membership = entry["membership_type"]
-
-        key = f"{is_student}_{membership}"
-        summary[key] = entry.get("total", 0)
+        summary[membership] = entry.get("total", 0)
     
-    summary['student_member_amount_total'] = summary.get('student_member', 0) * student_member_amount
-    summary['student_non_ieee_amount_total'] = summary.get('student_non_ieee', 0) * student_non_member_amount
-    summary['not_student_member_amount_total'] = summary.get('not_student_member', 0) * not_student_member_amount
-    summary['not_student_non_ieee_amount_total'] = summary.get('not_student_non_ieee', 0) * not_student_non_member_amount
+    summary['ieee_member_total'] = summary.get('member', 0) * ieee_member
+    summary['non_ieee_member_total'] = summary.get('non_ieee', 0) * non_ieee_member
 
-    total_amount = (summary['student_member_amount_total']
-                    +summary['student_non_ieee_amount_total'] 
-                    +summary['not_student_member_amount_total']
-                    +summary['not_student_non_ieee_amount_total'])
+    total_amount = (summary['ieee_member_total']
+                    +summary['non_ieee_member_total'])
     total_amount = f"BDT {total_amount:,}"
 
-    summary['student_member_amount_total'] = f"{summary['student_member_amount_total']:,}"
-    summary['student_non_ieee_amount_total'] = f"{summary['student_non_ieee_amount_total']:,}"
-    summary['not_student_member_amount_total'] = f"{summary['not_student_member_amount_total']:,}"
-    summary['not_student_non_ieee_amount_total'] = f"{summary['not_student_non_ieee_amount_total']:,}"
+    summary['ieee_member_total'] = f"{summary['ieee_member_total']:,}"
+    summary['non_ieee_member_total'] = f"{summary['non_ieee_member_total']:,}"
 
     
     university_data = (
