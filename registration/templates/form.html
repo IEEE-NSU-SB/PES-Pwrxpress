@@ -790,6 +790,7 @@
                   type="radio"
                   name="registering_for_team"
                   value="True"
+                  required
                 />
                 Yes, I'm registering for my team.</label
               ><br />
@@ -1345,6 +1346,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       mem1Inputs.forEach(i => i.required = false);
       mem2Inputs.forEach(i => i.required = false);
+
+      const tmc = document.querySelectorAll('input[name="team_mem_count"]')
+      tmc.forEach(i => i.required = false)
     }
   }
 
@@ -1482,7 +1486,7 @@ function validateStep(stepNumber) {
       const radioGroup = currentStep.querySelectorAll(`[name="${field.name}"]`);
       
       // Check if at least one radio is selected
-      const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+      const isChecked = Array.from(radioGroup).some(radio => (radio.checked && !radio.disabled));
 
       if (!isChecked) {
         isValid = false;
