@@ -201,19 +201,17 @@ def download_excel(request):
             'Name': participant.name,
             'Email': participant.email,
             'Contact Number': participant.contact_number,
-            'Is Student': 'Yes' if participant.is_student else 'No',
+            'Is NSU Student': 'Yes' if participant.is_nsu_student else 'No',
             'Membership Type': participant.membership_type,
             'IEEE ID': participant.ieee_id,
-            'Profession':participant.profession,
-            'Affiliation':participant.affiliation,
-            'Designation':participant.designation,
             'University': participant.university,
-            'Department': participant.department,
             'University ID': participant.university_id,
+            'Department': participant.department,
+            'Major': participant.major,
+            'Current Year': participant.current_year,
             'Payment Method': participant.payment_method,
             'Transaction ID': participant.transaction_id,
-            'T-shirt Size': participant.tshirt_size,
-            'Comments': participant.comments,
+            # 'T-shirt Size': participant.tshirt_size,
             'Created At': participant.created_at.strftime('%Y-%m-%d %H:%M:%S'),
         }
         basic_data.append(basic_row)
@@ -229,8 +227,6 @@ def download_excel(request):
             'Contact': participant.contact_number,
             'Q1': answers.get('question1', ''),
             'Q2': answers.get('question2', ''),
-            'Q3': answers.get('question3', ''),
-            'Q4': answers.get('question4', ''),
         }
         questionnaire_data.append(questionnaire_row)
     
