@@ -82,11 +82,11 @@ def submit_form(request):
             status = EventFormStatus.objects.order_by('-updated_at').first()
             #TEMPORARY
             # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
-            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
-                return JsonResponse({
-                'success': False,
-                'message': 'Registration failed'
-                })
+            # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
+            #     return JsonResponse({
+            #     'success': False,
+            #     'message': 'Registration failed'
+            #     })
 
             # Get form data
             #Step 1
