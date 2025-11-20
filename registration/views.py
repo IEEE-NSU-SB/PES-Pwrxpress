@@ -246,28 +246,47 @@ def download_excel(request):
     teams_data_count = 1
     for participant in participants:
         if 'participant_pstpre_contestant' in participant.participant_type and participant.registering_for_team:
-            teams_data.append({f'Team: {teams_data_count}'})
-            teams_row = {
+            # Team header row
+            teams_data.append({
+                'Team': f'Team {teams_data_count}',
+                'Name': '',
+                'University': '',
+                'University ID': ''
+            })
+
+            # Leader
+            teams_data.append({
+                'Team': '',
                 'Name': participant.name,
                 'University': participant.university,
-                'University ID': participant.university_id,
-            }
-            teams_data.append(teams_row)
-            if participant.team_member_count == 'two' or participant.team_member_count == 'three':
-                teams_row = {
+                'University ID': participant.university_id
+            })
+
+            # Member 1
+            if participant.team_member_count in ['two', 'three']:
+                teams_data.append({
+                    'Team': '',
                     'Name': participant.team_mem_1_name,
                     'University': participant.team_mem_1_university,
-                    'University ID': participant.team_mem_1_university_id,
-                }
-                teams_data.append(teams_row)
-            elif participant.team_member_count == 'three':
-                teams_row = {
+                    'University ID': participant.team_mem_1_university_id
+                })
+
+            # Member 2 (only for 3-member team)
+            if participant.team_member_count == 'three':
+                teams_data.append({
+                    'Team': '',
                     'Name': participant.team_mem_2_name,
                     'University': participant.team_mem_2_university,
-                    'University ID': participant.team_mem_2_university_id,
-                }
-                teams_data.append(teams_row)
-            teams_data.append({})
+                    'University ID': participant.team_mem_2_university_id
+                })
+
+            # Blank row for spacing
+            teams_data.append({
+                'Team': '',
+                'Name': '',
+                'University': '',
+                'University ID': ''
+            })
     
     # Create Excel file with two sheets
     output = BytesIO()
