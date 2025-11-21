@@ -223,7 +223,7 @@ def download_excel(request):
             'Payment Method': participant.payment_method,
             'Transaction ID': participant.transaction_id,
             'Comments': participant.comments,
-            # 'T-shirt Size': participant.tshirt_size,
+            'T-shirt Size': participant.tshirt_size,
             'Created At': participant.created_at.astimezone().strftime('%Y-%m-%d %H:%M:%S'),
         }
         basic_data.append(basic_row)
