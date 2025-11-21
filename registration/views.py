@@ -289,6 +289,19 @@ def download_excel(request):
                 'University ID': ''
             })
             teams_data_count += 1
+
+    # Prepare data for Sheet 4: T-Shirt
+    t_shirt_data = []
+    for participant in participants:
+        t_shirt_row = {
+            'ID': participant.id,
+            'Name': participant.name,
+            'Email': participant.email,
+            'Contact Number': participant.contact_number,
+            'University': participant.university,
+            'T-shirt Size': participant.tshirt_size,
+        }
+        t_shirt_data.append(t_shirt_row)
     
     # Create Excel file with two sheets
     output = BytesIO()
@@ -319,6 +332,15 @@ def download_excel(request):
             # Create empty sheet if no data
             empty_df = pd.DataFrame({'Message': ['No teams registered']})
             empty_df.to_excel(writer, index=False, sheet_name='Teams')
+
+        # Sheet 4: T-Shirt
+        if t_shirt_data:
+            df_t_shirt = pd.DataFrame(t_shirt_data)
+            df_t_shirt.to_excel(writer, index=False, sheet_name='T-Shirt')
+        else:
+            # Create empty sheet if no data
+            empty_df = pd.DataFrame({'Message': ['No T-Shirts registered']})
+            empty_df.to_excel(writer, index=False, sheet_name='T-Shirt')
     
     output.seek(0)
     response = HttpResponse(
