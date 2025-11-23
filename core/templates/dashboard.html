@@ -1068,7 +1068,7 @@ function filterTable(universities, searchTerm) {
       ? nameCell.includes(searchTerm) // If a university is selected, filter by name only
       : nameCell.includes(searchTerm) ||
         universityCell.includes(searchTerm) ||
-        tshirtSizeCell.includes(searchTerm) ||
+       // tshirtSizeCell.includes(searchTerm) ||
         roleCell.includes(searchTerm) ||
         contactCell.includes(searchTerm); // If no university is selected, filter all columns
 
