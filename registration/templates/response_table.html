@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PowerExpress 2.0 | Response Table</title>
     <link rel="icon" href="{% static '/img/pes.png' %}" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <!--daisy ui-->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@5"
@@ -139,13 +139,13 @@
               <tr>
                 <td class="py-2 px-4">IEEE Member</td>
                 <td class="py-2 px-4">{{registration_stats.member|default:0}}</td>
-                <td class="py-2 px-4">400</td>
+                <td class="py-2 px-4">350</td>
                 <td class="py-2 px-4">{{registration_stats.ieee_member_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Non-IEEE Member</td>
                 <td class="py-2 px-4">{{registration_stats.non_ieee|default:0}}</td>
-                <td class="py-2 px-4">500</td>
+                <td class="py-2 px-4">450</td>
                 <td class="py-2 px-4">{{registration_stats.non_ieee_member_total}}</td>
               </tr>
             </tbody>
@@ -194,7 +194,7 @@
           rows.forEach((row) => {
             const cells = row.querySelectorAll("td");
             const name = cells[1].textContent.toLowerCase(); // Name column
-            const email = cells[5].textContent.toLowerCase(); // Email column
+            const email = cells[4].textContent.toLowerCase(); // Email column
 
             if (name.includes(query) || email.includes(query)) {
               row.style.display = "";

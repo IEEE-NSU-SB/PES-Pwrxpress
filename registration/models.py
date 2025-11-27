@@ -26,6 +26,7 @@ class Form_Participant(models.Model):
         ('two', 'Two'),
         ('three', 'Three'),
     ]
+    SIZE_CHOICES = [("S","S"),("M","M"),("L","L"),("XL","XL"),("2XL","2XL"),("3XL","3XL"),("4XL","4XL")]
 
     is_nsu_student = models.BooleanField(default=False)
 
@@ -51,17 +52,19 @@ class Form_Participant(models.Model):
     # Step 3
     registering_for_team = models.BooleanField(blank=False, null=False, default=False)
     team_member_count = models.CharField(max_length=5, choices=TEAM_MEMBER_COUNT_CHOICES, null=True, blank=True)
-    team_mem_1_name = models.CharField(max_length=200, null=True, blank=True)
+    team_mem_1_name = models.CharField(max_length=200, null=True, blank=True, default='')
     team_mem_1_university = models.CharField(max_length=200, null=True, blank=True, default='')
-    team_mem_1_university_id = models.CharField(max_length=50, null=True, blank=True,default='')
-    team_mem_2_name = models.CharField(max_length=200, null=True, blank=True)
+    team_mem_1_university_id = models.CharField(max_length=50, null=True, blank=True, default='')
+    team_mem_2_name = models.CharField(max_length=200, null=True, blank=True, default='')
     team_mem_2_university = models.CharField(max_length=200, null=True, blank=True, default='')
-    team_mem_2_university_id = models.CharField(max_length=50, null=True, blank=True,default='')
+    team_mem_2_university_id = models.CharField(max_length=50, null=True, blank=True, default='')
 
     # Step 4
     payment_method = models.CharField(max_length=20, choices=[("Bkash","Bkash")], default="Bkash")
     transaction_id = models.CharField(max_length=100, null=True, blank=True)
+    comments = models.TextField(null=True, blank=True, default='')
 
+    tshirt_size = models.CharField(max_length=5, choices=SIZE_CHOICES, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
